@@ -61,9 +61,12 @@ $pfsdb = new cPessoaF();
                             ?>
                         </td>
                         <td>
-                            <form action="<?php $pfsdb->funcoes(); ?>" method="POST">
+                            <form action="editPessoaF.php" method="POST">
                                 <input type="hidden" name="id" value="<?php echo $pf['idPessoa']; ?>"/>
                                 <input type="submit" name="update" value="Editar"/>
+                            </form>
+                            <form action="<?php $pfsdb->funcoes(); ?>" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $pf['idPessoa']; ?>"/>
                                 <input type="submit" name="delete" value="Deletar"/>
                             </form>
                         </td>

@@ -147,9 +147,33 @@ class cPessoaF {
             mysqli_close($conexao);
             header('Refresh: 0'); //recarregar a pág. F5 em 0 segundos
         }
+    }
+
+    public function getPessoaById($id) {
         //Atualizar Pessoa
-        if (isset($_POST['update'])) {
-            $id = $_POST['id'];
+        $host = 'localhost';
+        $user = 'root';
+        $pass = '';
+        $schema = 'dev3n201';
+        $conexao = mysqli_connect($host, $user, $pass, $schema);
+        if (!$conexao) {
+            die("Erro ao conectar. " . mysqli_error($conexao));
+        }
+
+        $sql = "select * from pessoa where idPessoa=$id";
+        $result = mysqli_query($conexao, $sql);
+        if ($result) {
+            $pfsBD = [];
+            while ($row = $result->fetch_assoc()) {
+                array_push($pfsBD, $row);
+            }
+            return $pfsBD;
+        } 
+        mysqli_close($conexao);
+    }
+    
+    public function update() {
+        if(isset($_POST['updatePF'])){
             $host = 'localhost';
             $user = 'root';
             $pass = '';
@@ -158,20 +182,26 @@ class cPessoaF {
             if (!$conexao) {
                 die("Erro ao conectar. " . mysqli_error($conexao));
             }
-
-            $sql = "select * from pessoa where idPessoa=$id";
+            $idPessoa = $_POST['idPessoa'];
+            $Nome = $_POST['nome'];
+            $Telefone = $_POST['tel'];
+            $Email = $_POST['email'];
+            $Endereco = $_POST['endereco'];
+            $Cpf = $_POST['cpf'];
+            $Sexo = $_POST['sexo'];
+            
+            $sql = "UPDATE `pessoa` SET `nome`='$Nome',`telefone`='$Telefone',"
+                    . "`email`='$Email',`endereco`='$Endereco',`cpf`='$Cpf',"
+                    . "`sexo`='$Sexo' WHERE `idPessoa`='$idPessoa'";
             $result = mysqli_query($conexao, $sql);
-            if ($result) {
-                $pfsBD = [];
-                while ($row = $result->fetch_assoc()) {
-                    array_push($pfsBD, $row);
-                }
-                $_REQUEST['pfUpdate'] = $pfsBD;
-            } else {
-                $_REQUEST['pfUpdate'] = 0;
+            if(!$result){
+                die("Erro ao atualizar pessoa. " . mysqli_error($conexao));
             }
             mysqli_close($conexao);
-            require_once '../view/editPessoaF.php';
+            header('Location: ../view/gerPessoaF.php');
+        }
+        if(isset($_POST['cancelar'])){
+            header('Location: ../view/gerPessoaF.php');
         }
     }
 
