@@ -9,7 +9,7 @@
 /**
  * Description of cPessoaJ
  *
- * @author jairb
+ * @author camila_camera
  */
 require_once '../model/pessoaJ.php';
 class cPessoaJ {
@@ -102,17 +102,19 @@ class cPessoaJ {
     }
     
     public function getAllBD() {
-        $host = 'localhost';
-        $user = 'root';
-        $pass = '';
-        $schema = 'dev3n201';
-        $conexao = mysqli_connect($host, $user, $pass, $schema);
+//        $host = 'localhost';
+//        $user = 'root';
+//        $pass = '';
+//        $schema = 'dev3n201';
+//        $conexao = mysqli_connect($host, $user, $pass, $schema);
+        require 'conexao.php';
+        $conexao = new conexao();
         if (!$conexao) {
             die("Erro ao conectar. " . mysqli_error($conexao));
         }
 
-        $sql = "select * from pessoa where cpf is null";
-        $result = mysqli_query($conexao, $sql);
+        $sql = "select * from pessoa where cnpj is null";
+        $result = mysqli_query($conexao->getConexao(), $sql);
         if ($result) {
             $pjsBD = [];
             while ($row = $result->fetch_assoc()) {
@@ -122,7 +124,8 @@ class cPessoaJ {
         } else {
             $_REQUEST['pjsBD'] = 0;
         }
-        mysqli_close($conexao);
+//        mysqli_close($conexao);
+        $conexao->closeConexao();
     }
     
     public function funcoes() {

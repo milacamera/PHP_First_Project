@@ -9,7 +9,7 @@
 /**
  * Description of pessoaJ
  *
- * @author jairb
+ * @author camila_camera
  */
 require_once 'pessoa.php';
 class pessoaJ extends pessoa{
